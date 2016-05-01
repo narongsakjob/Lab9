@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
@@ -11,12 +12,17 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
+import java.awt.Font;
 
 public class ConverterUI extends JFrame {
 
@@ -30,10 +36,9 @@ public class ConverterUI extends JFrame {
 	private JButton clear;
 	private JComboBox unit1;
 	private JComboBox unit2;
-	private JRadioButton left;
-	private JRadioButton right;
-	private JPanel contentPane2;
-	
+
+		
+
 	UnitConverter u = new UnitConverter();
 	/**
 	 * Launch the application.
@@ -57,9 +62,7 @@ public class ConverterUI extends JFrame {
 	 */
 	public ConverterUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 600, 100);
-
-
+		setBounds(100, 100, 667, 78); 
 		initComponents();
 	}
 	private void initComponents(){
@@ -67,6 +70,7 @@ public class ConverterUI extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 30, 5));
 		setContentPane(contentPane);
 		input = new JTextField(10);
+		input.setBounds(0, 22, 125, 28);
 		input.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -75,9 +79,10 @@ public class ConverterUI extends JFrame {
 				}
 			}
 		});
-		contentPane.setLayout(new FlowLayout());
+		contentPane.setLayout(null);
 		getContentPane().add(input);
-		unit1 = new JComboBox(u.getUnit());
+		unit1 = new JComboBox();
+		unit1.setBounds(120, 24, 125, 27);
 		unit1.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -88,11 +93,14 @@ public class ConverterUI extends JFrame {
 		});
 		getContentPane().add(unit1);
 		equals = new JLabel("=");
+		equals.setBounds(247, 28, 25, 16);
 		getContentPane().add(equals);
 		result = new JTextField(10);
+		result.setBounds(261, 23, 130, 26);
 		result.setEnabled(false);
 		getContentPane().add(result);
-		unit2 = new JComboBox(u.getUnit());
+		unit2 = new JComboBox();
+		unit2.setBounds(384, 24, 125, 27);
 		unit2.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -103,6 +111,7 @@ public class ConverterUI extends JFrame {
 		});
 		getContentPane().add(unit2);
 		action = new JButton("Convert!");
+		action.setBounds(501, 23, 97, 29);
 		action.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				actionConvert();
@@ -110,58 +119,107 @@ public class ConverterUI extends JFrame {
 		});
 		getContentPane().add(action);
 		clear = new JButton("Clear");
+		clear.setBounds(589, 23, 76, 29);
 		clear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Reset();
 			}
 		});
 		getContentPane().add(clear);
-		this.pack();
+		
 
 		
-		left = new JRadioButton("Left->Right");
-		right = new JRadioButton("Right->Left");
+
 		
-		left.addActionListener(new ActionListener() {
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 64, 22);
+		JMenu unitType = new JMenu("Unit Type");
+		JMenuItem length = new JMenuItem("Length");
+		length.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				right.setSelected(false);
-				unit2.setEnabled(false);
-				unit1.setEnabled(true);
+				Unit[] unit = UnitType.LENGTH.getUnit(); 
+				unit1.removeAllItems();
+				unit2.removeAllItems();
+				for(Unit u : unit) unit1.addItem(u);
+				for(Unit u : unit) unit2.addItem(u);
+				
+			}
+		});
+		JMenuItem area = new JMenuItem("Area");
+		/**
+		 * // remove you combobox
+		 * // add your new type combobox
+		 */
+		area.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				// remove you combobox
+				// add your new type combobox
+				Unit[] unit = UnitType.AREA.getUnit(); 
+				unit1.removeAllItems();
+				unit2.removeAllItems();
+				for(Unit u : unit) unit1.addItem(u);
+				for(Unit u : unit) unit2.addItem(u);
+			}
+		});
+		JMenuItem weight = new JMenuItem("Weight");
+		weight.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Unit[] unit = UnitType.WEIGHT.getUnit(); 
+				unit1.removeAllItems();
+				unit2.removeAllItems();
+				for(Unit u : unit) unit1.addItem(u);
+				for(Unit u : unit) unit2.addItem(u);
+			}
+		});
+		JMenuItem volume = new JMenuItem("Volume");
+		volume.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Unit[] unit = UnitType.VOLUME.getUnit(); 
+				unit1.removeAllItems();
+				unit2.removeAllItems();
+				for(Unit u : unit) unit1.addItem(u);
+				for(Unit u : unit) unit2.addItem(u);
+			}
+		});
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 			}
 		});
 		
-
-		right.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				left.setSelected(false);
-				unit1.setEnabled(false);
-				unit2.setEnabled(true);
-			}
-		});
-		
-		getContentPane().add(left);
-		getContentPane().add(right);
+		unitType.add(length);
+		unitType.add(area);
+		unitType.add(weight);
+		unitType.add(volume);
+		unitType.add(exit);
+		unitType.setFont(new Font("Arial Narrow", Font.PLAIN, 13));
+		menuBar.add(unitType);
+		contentPane.add(menuBar);
 		
 
 	}
+	
+
 	public void actionConvert(){
 		try{
-			result.setText(String.valueOf(String.format("%.3f",u.convert(Double.parseDouble(input.getText()), (Length)unit1.getSelectedItem(), (Length)unit2.getSelectedItem()))));	
-			
+			result.setText(String.valueOf(String.format("%.4f",u.convert(Double.parseDouble(input.getText()), (Unit)unit1.getSelectedItem(), (Unit)unit2.getSelectedItem()))));	
 		}catch(NumberFormatException a){
 			
 		}
 	}
 	
+	
+	
 	public void Reset(){
+		System.out.println("2");
 		input.setText("");
 		result.setText("");
-		right.setEnabled(true);
+		
 		unit2.setEnabled(true);
-		left.setEnabled(true);
+	
 		unit1.setEnabled(true);
-		left.setSelected(false);
-		right.setSelected(false);
+		
 	}
-
 }
